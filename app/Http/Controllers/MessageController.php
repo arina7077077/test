@@ -16,7 +16,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::with(['user'])->orderBy('created_at', 'DESC')->paginate(20);
+        $messages = Message::with(['user'])->orderByDesc('created_at')->paginate(20);
 
         return view('admin.messages.index', [
             'messages' => $messages,
@@ -88,7 +88,8 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        if (Message::whereDate('created_at' < Carbon::today())->get()) {
+	    $now = \Carbon\Carbon::now('Europe/Moscow');
+        if ($now->diffInHours($message->created_at) < 24) {
             $message->delete();
         }
 
