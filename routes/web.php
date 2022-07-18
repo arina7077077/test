@@ -32,6 +32,5 @@ Route::group([
     Route::get('/', [MessageController::class, 'index'])->name('index');
     Route::get('create', [MessageController::class, 'create'])->name('create');
     Route::post('store', [MessageController::class, 'store'])->name('store');
-    Route::get('/{post}', [MessageController::class, 'edit'])->name('edit');
-    Route::put('/{post}', [MessageController::class, 'update'])->name('update');
+    Route::get('/{message}', [MessageController::class, 'destroy'])->name('destroy');
     });

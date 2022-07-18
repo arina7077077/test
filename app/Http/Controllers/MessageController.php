@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use App\Http\Requests\SaveMessageRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class MessageController extends Controller
 {
@@ -14,10 +17,12 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::all();
+        $messages = Message::with(['user'])->orderBy('created_at', 'DESC')->paginate(20);
+        $dt = Carbon::now();
 
         return view('admin.messages.index', [
             'messages' => $messages,
+            'dt' => $dt,
         ]);
     }
 
@@ -26,9 +31,9 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Message $message)
     {
-        //
+        return view('admin.messages.create', ['message' => $message]);
     }
 
     /**
@@ -37,9 +42,11 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveMessageRequest $request)
     {
-        //
+        auth()->user()->messages()->create($request->validated());
+
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -84,6 +91,10 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        if (Message::whereDate('created_at' < Carbon::today())->get()) {
+            $message->delete();
+        }
+
+        return redirect()->route('admin.index');
     }
 }

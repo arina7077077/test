@@ -2,25 +2,30 @@
 @section('title')
 Messages
 @endsection
-@section('content_header')
-<b>Messages</b> <br>
-@endsection
 
 @section('content')
-<table class="table">
+
+<td><a href="{{ route('admin.create') }}" class="btn btn-primary btn-sm">Create new message</a></td>
+
+<table class="table" >
     <thead>
       <tr>
         <th scope="col">user</th>
         <th scope="col">content</th>
+        <th scope="col">time</th>
       </tr>
     </thead>
-    <tbody>
         @foreach($messages as $message)
         <tr>
-            <td>{{ $message->user_id }}</td>
+            <td>{{ $message->user->name }}</td>
             <td>{{ $message->content }}</td>
-
+            <td>{{ $message->created_at->diffForHumans() }}</td>
+            @if($message->user_id == auth()->user()->id && ($dt < $dt->subDays(10)->diffForHumans()))
+            <td><a href="{{ route('admin.destroy', $message) }}" class="btn btn-outline-warning">Удалить</a></td>
+            @endif
         </tr>
-    @endforeach
-    </table>
-    @stop
+        @endforeach
+</table>
+
+{{ $messages->links() }}
+@stop
