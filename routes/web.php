@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.',
+    'middleware' => 'auth',
+], function() {
+    Route::get('/', [MessageController::class, 'index'])->name('index');
+    Route::get('create', [MessageController::class, 'create'])->name('create');
+    Route::post('store', [MessageController::class, 'store'])->name('store');
+    Route::get('/{post}', [MessageController::class, 'edit'])->name('edit');
+    Route::put('/{post}', [MessageController::class, 'update'])->name('update');
+    });
