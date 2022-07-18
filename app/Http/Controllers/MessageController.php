@@ -6,7 +6,6 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaveMessageRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
 
 class MessageController extends Controller
 {
@@ -18,11 +17,9 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::with(['user'])->orderBy('created_at', 'DESC')->paginate(20);
-        $dt = Carbon::now();
 
         return view('admin.messages.index', [
             'messages' => $messages,
-            'dt' => $dt,
         ]);
     }
 

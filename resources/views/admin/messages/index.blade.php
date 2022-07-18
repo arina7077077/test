@@ -20,7 +20,7 @@ Messages
             <td>{{ $message->user->name }}</td>
             <td>{{ $message->content }}</td>
             <td>{{ $message->created_at->diffForHumans() }}</td>
-            @if($message->user_id == auth()->user()->id && ($dt < $dt->subDays(10)->diffForHumans()))
+            @if($message->user_id == auth()->user()->id && ($message->created_at->diffForHumans() > $message->created_at->subDays(1)->diffForHumans()))
             <td><a href="{{ route('admin.destroy', $message) }}" class="btn btn-outline-warning">Удалить</a></td>
             @endif
         </tr>
