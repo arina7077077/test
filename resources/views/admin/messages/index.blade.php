@@ -1,13 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <title>@section('title', 'Messages')
+        Messages</title>
+</head>
+<body>
+
 @extends('dashboard')
-@section('title')
-Messages
-@endsection
+
+{{-- <link href="/dist/output.css" rel="stylesheet"> --}}
 
 @section('content')
 
 <td><a href="{{ route('admin.create') }}" class="btn btn-primary btn-sm">Create new message</a></td>
+<br>
+<br>
+<br>
 
-<table class="table" >
+
+<table class="table-auto border border-slate-700">
     <thead>
       <tr>
         <th scope="col">user</th>
@@ -29,3 +44,7 @@ Messages
 
 {{ $messages->links() }}
 @stop
+
+</body>
+</html>
+

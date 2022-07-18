@@ -88,9 +88,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        if (Message::whereDate('created_at' < Carbon::today())->get()) {
-            $message->delete();
-        }
+        $message->delete();
 
         return redirect()->route('admin.index');
     }
