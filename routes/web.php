@@ -33,4 +33,4 @@ Route::group([
     Route::get('create', [MessageController::class, 'create'])->name('create');
     Route::post('store', [MessageController::class, 'store'])->name('store');
     Route::get('/{message}', [MessageController::class, 'destroy'])->name('destroy');
-    });
+});

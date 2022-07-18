@@ -16,7 +16,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::with(['user'])->orderBy('created_at', 'DESC')->paginate(20);
+        $messages = Message::with(['user'])->orderByDesc('created_at')->paginate(20);
 
         return view('admin.messages.index', [
             'messages' => $messages,
@@ -84,11 +84,11 @@ class MessageController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Message $message)
     {
-        if (Message::whereDate('created_at' < Carbon::today())->get()) {
+        if ($message->is_new) {
             $message->delete();
         }
 
