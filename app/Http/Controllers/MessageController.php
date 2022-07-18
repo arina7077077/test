@@ -84,12 +84,11 @@ class MessageController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Message $message)
     {
-	    $now = \Carbon\Carbon::now('Europe/Moscow');
-        if ($now->diffInHours($message->created_at) < 24) {
+        if ($message->is_new) {
             $message->delete();
         }
 
