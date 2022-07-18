@@ -1,14 +1,21 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+const defaultTheme = require('tailwindcss/defaultTheme');
 
-export default defineConfig({
-    plugins: [
-        laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
-            ],
-            refresh: true,
-        }),
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+        "./resources/**/*.js",
     ],
-});
+
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+            },
+        },
+    },
+
+    plugins: [require('@tailwindcss/forms')],
+};
